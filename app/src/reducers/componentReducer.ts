@@ -329,12 +329,12 @@ const reducer = (state: State, action: Action) => {
       };
       const nextChildId = state.nextChildId + 1;
       let nextTopSeparatorId = state.nextTopSeparatorId + 1;
-     console.log('canvasFocus', canvasFocus)
-     console.log('components',components)
-      // let addChildArray = components[0].children;
+   
       let addChildArray = components[canvasFocus.componentId-1].children
       addChildArray = manageSeparators.mergeSeparator(addChildArray, 1);
-      if (directParent && directParent.name === 'separator') nextTopSeparatorId = manageSeparators.handleSeparators(addChildArray, 'add');
+      if (directParent && directParent.name === 'separator') {
+        nextTopSeparatorId = manageSeparators.handleSeparators(addChildArray, 'add')
+      };
       components[canvasFocus.componentId-1].children = addChildArray;
       
       return { ...state, components, nextChildId, canvasFocus, nextTopSeparatorId };
@@ -384,7 +384,8 @@ const reducer = (state: State, action: Action) => {
       
       let nextTopSeparatorId = state.nextTopSeparatorId;
      
-      components[state.canvasFocus.componentId-1].children = manageSeparators.mergeSeparator(components[state.canvasFocus.componentId-1].children, 0);
+      components[state.canvasFocus.componentId-1].children = 
+      manageSeparators.mergeSeparator(components[state.canvasFocus.componentId-1].children, 0);
       nextTopSeparatorId = manageSeparators.handleSeparators(components[state.canvasFocus.componentId-1].children, 'change position')
       return { ...state, components, nextTopSeparatorId };
     }
@@ -453,7 +454,6 @@ const reducer = (state: State, action: Action) => {
     
       
       const canvasFocus = { ...state.canvasFocus, childId: null };
-      console.log('before invoking handleSep')
      let nextTopSeparatorId = manageSeparators.handleSeparators(components[canvasFocus.componentId-1].children, 'delete')
       return { ...state, components, canvasFocus, nextTopSeparatorId };
     }
